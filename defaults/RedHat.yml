@@ -1,0 +1,2 @@
+influxdb_dl_url: "https://dl.influxdata.com/influxdb/releases/influxdb-{{  influxdb_ver  }}.{{  ansible_architecture  }}.rpm"
+influxdb_pkg: "/usr/local/src/influxdb-{{  influxdb_ver  }}.{{  ansible_architecture  }}.rpm"

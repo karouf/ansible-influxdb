@@ -1,0 +1,2 @@
+influxdb_dl_url: "https://dl.influxdata.com/influxdb/releases/influxdb_{{  influxdb_ver  }}_amd64.deb"
+influxdb_pkg: "/usr/local/src/influxdb_{{  influxdb_ver  }}_amd64.deb"

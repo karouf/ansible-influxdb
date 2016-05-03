@@ -1,5 +1,7 @@
 ---
 
+- include_vars: "defaults/{{ ansible_os_family }}.yml"
+
 - name: Create influxdb group
   group:
     name: "{{ influxdb_group }}"
@@ -21,17 +23,25 @@
 
 # TODO: Use md5sum to check download
 - name: Download version
-  get_url:
-    url: "{{ influxdb_dl_url }}"
-    dest: "{{ influxdb_pkg }}"
+  command: curl -L "{{ influxdb_dl_url }}" -o "{{ influxdb_pkg }}"
+  args:
+    creates: "{{ influxdb_pkg }}"
   tags:
     - influxdb
 
-- name: Install package
+- name: Install package on Debian-based OS
   command: "dpkg --skip-same-version -i {{ influxdb_pkg }}"
   register: dpkg_result
   changed_when: "dpkg_result.stdout.startswith('Selecting')"
   when: ansible_distribution in ['Ubuntu', 'Debian']
+  tags:
+    - influxdb
+
+- name: Install package on RedHat-based OS
+  yum:
+    name: "{{ influxdb_pkg }}"
+    state: present
+  when: ansible_os_family == "RedHat"
   tags:
     - influxdb
 
